@@ -1,0 +1,136 @@
+# Palindrome & Armstrong Number
+
+## Problem Statement
+### Palindrome Number
+Given an integer `x`, return `true` if `x` is a palindrome, and `false` otherwise.
+
+### Armstrong Number
+Given an integer `n`, return `true` if `n` is an Armstrong number, and `false` otherwise. An Armstrong number for a three-digit number is a number for which the sum of the cubes of its digits equals the number itself.
+
+## Examples
+
+### Example 1: Palindrome Number
+**Input:**
+```cpp
+x = 121
+```
+**Output:**
+```cpp
+true
+```
+**Explanation:** 121 reads as 121 from left to right and from right to left.
+
+### Example 2: Palindrome Number
+**Input:**
+```cpp
+x = -121
+```
+**Output:**
+```cpp
+false
+```
+**Explanation:** From left to right, it reads -121. From right to left, it becomes 121-. Therefore, it is not a palindrome.
+
+### Example 3: Palindrome Number
+**Input:**
+```cpp
+x = 10
+```
+**Output:**
+```cpp
+false
+```
+**Explanation:** Reads 01 from right to left. Therefore, it is not a palindrome.
+
+### Example 4: Armstrong Number
+**Input:**
+```cpp
+n = 153
+```
+**Output:**
+```cpp
+true
+```
+**Explanation:** 1³ + 5³ + 3³ = 153.
+
+### Example 5: Armstrong Number
+**Input:**
+```cpp
+n = 123
+```
+**Output:**
+```cpp
+false
+```
+**Explanation:** 1³ + 2³ + 3³ ≠ 123.
+
+## Constraints:
+- -2^31 <= x <= 2^31 - 1
+- 100 <= n <= 999 (for three-digit Armstrong numbers)
+
+## Solution
+
+### C++ Implementation
+#### Palindrome Number
+```cpp
+#include <climits>
+
+class Solution {
+public:
+    bool isPalindrome(int x) {
+        if (x < 0) return false; // Negative numbers are not palindromes
+        int reverseNumber = 0;
+        int dup = x;
+        while (x > 0) {
+            int lastDigit = x % 10;
+            if ((reverseNumber > INT_MAX / 10) || (reverseNumber < INT_MIN / 10)) {
+                return false;
+            }
+            reverseNumber = (reverseNumber * 10) + lastDigit;
+            x = x / 10;
+        }
+        return dup == reverseNumber;
+    }
+};
+```
+
+#### Armstrong Number
+```cpp
+class Solution {
+  public:
+    bool armstrongNumber(int n) {
+        int sum =  0;
+        int dup = n;
+        while (n > 0) {
+            int lastDigit = n % 10;
+            sum = sum + (lastDigit * lastDigit * lastDigit);
+            n = n / 10;
+        }
+        return dup == sum;
+    }
+};
+```
+
+## Explanation
+### Palindrome Number
+1. If `x` is negative, return `false` immediately.
+2. Initialize `reverseNumber` to `0` and store the original value of `x` in `dup`.
+3. Extract the last digit of `x` using `x % 10`.
+4. Before multiplying `reverseNumber` by 10, check for potential overflow.
+5. Multiply `reverseNumber` by 10 and add the last digit.
+6. Reduce `x` by dividing it by 10.
+7. Compare the reversed number with the original number.
+8. Return `true` if they are equal, otherwise return `false`.
+
+### Armstrong Number
+1. Initialize `sum` to `0` and store the original value of `n` in `dup`.
+2. Extract the last digit of `n` using `n % 10`.
+3. Cube the last digit and add it to `sum`.
+4. Reduce `n` by dividing it by 10.
+5. Repeat the process until `n` becomes `0`.
+6. Compare `sum` with `dup` and return `true` if they are equal, otherwise return `false`.
+
+## Complexity Analysis
+- **Time Complexity:** O(log(x)) for palindrome, O(log(n)) for Armstrong, since the number is divided by 10 in each iteration.
+- **Space Complexity:** O(1), as we use only a few integer variables.
+
