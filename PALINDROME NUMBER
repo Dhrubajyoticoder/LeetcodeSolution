@@ -1,0 +1,82 @@
+# Palindrome Number
+
+## Problem Statement
+Given an integer `x`, return `true` if `x` is a palindrome, and `false` otherwise.
+
+## Examples
+
+### Example 1:
+**Input:**
+```cpp
+x = 121
+```
+**Output:**
+```cpp
+true
+```
+**Explanation:** 121 reads as 121 from left to right and from right to left.
+
+### Example 2:
+**Input:**
+```cpp
+x = -121
+```
+**Output:**
+```cpp
+false
+```
+**Explanation:** From left to right, it reads -121. From right to left, it becomes 121-. Therefore, it is not a palindrome.
+
+### Example 3:
+**Input:**
+```cpp
+x = 10
+```
+**Output:**
+```cpp
+false
+```
+**Explanation:** Reads 01 from right to left. Therefore, it is not a palindrome.
+
+## Constraints:
+- -2^31 <= x <= 2^31 - 1
+
+## Solution
+
+### C++ Implementation
+```cpp
+#include <climits>
+
+class Solution {
+public:
+    bool isPalindrome(int x) {
+        if (x < 0) return false; // Negative numbers are not palindromes
+        int reverseNumber = 0;
+        int dup = x;
+        while (x > 0) {
+            int lastDigit = x % 10;
+            if ((reverseNumber > INT_MAX / 10) || (reverseNumber < INT_MIN / 10)) {
+                return false;
+            }
+            reverseNumber = (reverseNumber * 10) + lastDigit;
+            x = x / 10;
+        }
+        return dup == reverseNumber;
+    }
+};
+```
+
+## Explanation
+1. If `x` is negative, return `false` immediately.
+2. Initialize `reverseNumber` to `0` and store the original value of `x` in `dup`.
+3. Extract the last digit of `x` using `x % 10`.
+4. Before multiplying `reverseNumber` by 10, check for potential overflow.
+5. Multiply `reverseNumber` by 10 and add the last digit.
+6. Reduce `x` by dividing it by 10.
+7. Compare the reversed number with the original number.
+8. Return `true` if they are equal, otherwise return `false`.
+
+## Complexity Analysis
+- **Time Complexity:** O(log(x)), since the number is divided by 10 in each iteration.
+- **Space Complexity:** O(1), as we use only a few integer variables.
+
